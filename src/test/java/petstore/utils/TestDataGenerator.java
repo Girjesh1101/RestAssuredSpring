@@ -1,9 +1,12 @@
 package petstore.utils;
 
+
 import petstore.model.Category;
 import petstore.model.Pet;
 import petstore.model.Tag;
+import petstore.model.store.Order;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -43,5 +46,39 @@ public class TestDataGenerator {
 
     public  static  Long generateRandomId(){
         return Math.abs(random.nextLong());
+    }
+
+    public  static  Order createOrder(Long orderId, Long petId , Integer quantity , String status , Boolean complete){
+
+        Order order  = new Order();
+        order.setId(orderId);
+        order.setPetId(petId);
+        order.setQuantity(quantity);
+        order.setComplete(complete);
+        order.setDate(LocalDateTime.now());
+        return  order;
+
+    }
+
+    public  static Order createDefaultOrder(Long orderId , Long petId){
+        return  createOrder(
+                orderId,
+                petId,
+                Constants.DEFAULT_QUANTITY,
+                Constants.ORDER_PLACED,
+                Constants.DEFAULT_COMPLETE
+        );
+    }
+
+    public  static  Order createRandomOrder(Long petId){
+        String[] statuses = {Constants.ORDER_PLACED , Constants.ORDER_APPROVED , Constants.ORDER_DELIVERED};
+
+        return createOrder(
+                generateRandomId(),
+                petId,
+                random.nextInt(10)+1,
+                statuses[random.nextInt(statuses.length)],
+                random.nextBoolean()
+        );
     }
 }

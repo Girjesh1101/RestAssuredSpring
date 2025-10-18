@@ -3,6 +3,7 @@ package petstore.utils;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import petstore.model.Pet;
+import petstore.model.store.Order;
 
 public class ResponseValidator {
 
@@ -22,4 +23,20 @@ public class ResponseValidator {
 
         response.then().statusCode(404);
     }
+
+    //Store validation Method
+    public static  void validateOrderResponse(Response response , Order expectedOrder){
+
+        response.then().statusCode(200);
+
+        Order actualOrder = response.as(Order.class);
+
+        Assertions.assertEquals(expectedOrder.getId(), actualOrder.getId() ,"Order Id should match");
+        Assertions.assertEquals(expectedOrder.getPetId(),actualOrder.getPetId(),"Pet Id should match");
+    }
+
+    public  static  void validateOrderNotFound(Response response){
+        response.then().statusCode(404);
+    }
+
 }
