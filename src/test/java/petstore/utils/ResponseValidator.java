@@ -4,6 +4,8 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import petstore.model.Pet;
 import petstore.model.store.Order;
+import petstore.model.user.UserResponse;
+import petstore.model.user.Users;
 
 public class ResponseValidator {
 
@@ -38,5 +40,40 @@ public class ResponseValidator {
     public  static  void validateOrderNotFound(Response response){
         response.then().statusCode(404);
     }
+
+    //User Validation Method
+    public  static  void validateUserResponse(Response response , Users expectedUser){
+
+        response.then().statusCode(200);
+
+        Users actualUser = response.as(Users.class);
+
+        Assertions.assertEquals(expectedUser.getUsername() , actualUser.getUsername(),"verified username should match");
+        Assertions.assertEquals(expectedUser.getPassword() , actualUser.getPassword(),"Verified password should match");
+        Assertions.assertEquals(expectedUser.getId(), actualUser.getId(),"Verified User ID should match");
+        Assertions.assertEquals(expectedUser.getFirstName(), actualUser.getFirstName() , "Verified firstName should match");
+    }
+
+    public  static  void validateUserCreated(Response response){
+        response.then().statusCode(200);
+
+        UserResponse userResponse = response.as(UserResponse.class);
+        Assertions.assertNotNull(userResponse, "User response should not be null");
+        Assertions.assertNotNull(userResponse.getMessage(), "Message should not be null");
+        Assertions.assertNotNull(userResponse.getMessage(), "Message should not be null");
+    }
+
+    public  static  void validateUserNotFound(Response response){
+        response.then().statusCode(404);
+    }
+
+    public static  void validateUserDeleted(Response response){
+        response.then().statusCode(200);
+    }
+
+    public  static  void validateLogoutSuccess(Response response){
+        response.then().statusCode(200);
+    }
+
 
 }

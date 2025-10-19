@@ -15,6 +15,12 @@ public class Constants {
 
     public  static  final  String ORDER_NOT_FOUND = "Order not found";
     public  static  final  String INVENTORY_FETCH_ERROR = "Failed to fetch inventory";
+
+    public  static  final String DEFAULT_PASSWORD = "password123";
+    public static  final  String DEFAULT_EMAIL = "@test.com";
+    public  static  final  int USER_STATUS_ACTIVE = 0;
+    public static  final  String USER_NOT_FOUND = "user not found";
+    public  static  final  String LOGIN_FAILED  = "Login failed";
 }
 
 

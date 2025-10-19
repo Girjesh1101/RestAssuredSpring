@@ -5,11 +5,13 @@ import petstore.model.Category;
 import petstore.model.Pet;
 import petstore.model.Tag;
 import petstore.model.store.Order;
+import petstore.model.user.Users;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TestDataGenerator {
 
@@ -80,5 +82,58 @@ public class TestDataGenerator {
                 statuses[random.nextInt(statuses.length)],
                 random.nextBoolean()
         );
+    }
+
+    private static  final AtomicLong userCounter =  new AtomicLong(1000);
+    private  static  final String[] FIRST_NAMES ={"John", "Jane" , "Sanjay", "Sara" , "Robert", "Tony" , "Prem"};
+    private static final String[] LAST_NAMES ={"Smith" , "Johnson" , "Gupta" , "Shah" , "Davis" , "Shetty" , "Tiwari"};
+
+    public  static Users createUser(Long id , String username , String firstName , String lastName , String email , String password , String phone , Integer userStatus){
+
+        Users users  = new Users();
+        users.setId(id);
+        users.setUsername(username);
+        users.setFirstName(firstName);
+        users.setLastName(lastName);
+        users.setEmail(email);
+        users.setPassword(password);
+        users.setPhone(phone);
+        users.setUserStatus(userStatus);
+
+        return  users;
+    }
+
+    public  static  Users createDefaultUser(String username){
+
+        return  createUser(
+                userCounter.incrementAndGet(),
+                username,
+                FIRST_NAMES[random.nextInt(FIRST_NAMES.length)],
+                LAST_NAMES[random.nextInt(LAST_NAMES.length)],
+                username + Constants.DEFAULT_EMAIL,
+                Constants.DEFAULT_PASSWORD,
+                generatePhoneNumber(),
+                Constants.USER_STATUS_ACTIVE
+        );
+    }
+
+    public  static  Users createRandomUser(){
+
+        String username = "testuser_"+System.currentTimeMillis() + "-" + random.nextInt(1000);
+
+        return createDefaultUser(username);
+    }
+
+    public  static String generatePhoneNumber(){
+
+        return  String.format("+91-%03d-%03d-%04d", random.nextInt(1000),random.nextInt(1000),random.nextInt(10000));
+    }
+
+    public  static  Users[] createUserArray(int count){
+        Users[] users = new Users[count];
+        for (int i = 0; i < count; i++) {
+            users[i] = createRandomUser();
+        }
+        return  users;
     }
 }

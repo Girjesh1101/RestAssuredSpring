@@ -43,7 +43,7 @@ public class StoreTest extends BaseTest {
 
     @Test
     @org.junit.jupiter.api.Order(2)
-    @DisplayName("should retrive order by Id")
+    @DisplayName("should retrieve order by Id")
     void testGetOrderById(){
         Response response = storeService.getOrderById(orderId);
         ResponseValidator.validateOrderResponse(response, testOrder);
